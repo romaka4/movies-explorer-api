@@ -5,18 +5,12 @@ const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/conflict-error');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-module.exports.getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send(users))
-    .catch(next);
-};
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(() => {
       throw new NotFoundError('Пользователь по указанному _id не найден');
     })
     .then((user) => {
-      console.log(user);
       res.send(user);
     })
     .catch(next);

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-// const cors = require('cors');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const helmet = require('helmet');
@@ -18,7 +18,7 @@ app.use(requestLogger);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors);
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
