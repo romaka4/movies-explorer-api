@@ -3,8 +3,8 @@ const ForbiddenError = require('../errors/forbidden-error');
 const NotFoundError = require('../errors/not-found-err');
 
 module.exports.getMovies = (req, res, next) => {
-  const profile = req.user._id;
-  Movie.find({ profile })
+  const owner = req.user._id;
+  Movie.find({ owner })
     .then((movies) => res.send(movies))
     .catch(next);
 };
@@ -23,6 +23,7 @@ module.exports.createMovie = (req, res, next) => {
     thumbnail,
     movieId,
   } = req.body;
+  const owner = req.user._id;
   Movie.create({
     country,
     director,
@@ -34,6 +35,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
+    owner,
     movieId,
   })
     .then((movie) => res.status(201).send(movie))
