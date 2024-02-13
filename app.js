@@ -12,8 +12,10 @@ const { createUser, login } = require('./controllers/users');
 const NotFoundError = require('./errors/not-found-err');
 const auth = require('./middlewares/auth');
 
-const { PORT = 3000, DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
-mongoose.connect(DB_URL);
+const { NODE_ENV, PORT = 3000, DB_URL } = process.env;
+mongoose.connect(`${NODE_ENV === 'production'
+  ? DB_URL
+  : 'mongodb://127.0.0.1:27017/bitfilmsdb'}`);
 app.use(requestLogger);
 app.use(helmet());
 app.use(bodyParser.json());
